@@ -35,21 +35,27 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 public class User implements UserDetails {
 	
-
 	public enum ROLE {
 		admin,
 		user
+	}
+	
+	public enum GENDER {
+		unknow,
+		male,
+		female
 	}
 	
 	static public BCryptPasswordEncoder getPasswordEncoder() {
 		return new BCryptPasswordEncoder(4);
 	}
 	
-	
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;  
 	
+	@Column(nullable=false)
 	@Enumerated(EnumType.STRING)
     private ROLE role;
 	
@@ -59,24 +65,71 @@ public class User implements UserDetails {
 	@Column(nullable=false)
 	private String password;  
 
-
-	@OneToMany(cascade = { CascadeType.REFRESH, CascadeType.PERSIST,CascadeType.MERGE, CascadeType.REMOVE }, mappedBy = "user")
-	private Collection<Session> sessions;
+	@Column(length=30)	
+	private String nickname;
 	
-	@JsonBackReference
-	public Collection<Session> getSessions() {
-		return sessions;
+	@Column(nullable=false)
+	@Enumerated(EnumType.STRING)
+	private GENDER gender;
+	
+	@Column(length=128)
+	private String avatarUrl;
+	
+	private String signature;
+	
+	public String getNickname() {
+		return nickname;
 	}
 
 
-	public void setSessions(Collection<Session> sessions) {
-		this.sessions = sessions;
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
 	}
 
 
-	public User() {}
+	public GENDER getGender() {
+		return gender;
+	}
+
+
+	public void setGender(GENDER gender) {
+		this.gender = gender;
+	}
+
+
+	public String getAvatarUrl() {
+		return avatarUrl;
+	}
+
+
+	public void setAvatarUrl(String avatarUrl) {
+		this.avatarUrl = avatarUrl;
+	}
+
+
+	public String getSignature() {
+		return signature;
+	}
+
+
+	public void setSignature(String signature) {
+		this.signature = signature;
+	}
+
+
+	public User() {
+		super();
+		setRole(User.ROLE.user);
+		setGender(User.GENDER.unknow);
+		setNickname("新用户");
+	}
 	
 	
+	public void setId(long id) {
+		this.id = id;
+	}
+
+
 	public long getId() {
 		return id;
 	}
@@ -108,37 +161,38 @@ public class User implements UserDetails {
 		this.role = role;
 	}
 	
-	public void addSession(Session session){   
-        session.setUser(this);//用关系维护端来维护关系   
-        this.sessions.add(session);   
-    }   
 
 	@Override
+	@JsonBackReference
 	public Collection<? extends GrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();
         authorities.add(new SimpleGrantedAuthority(getRole().name()));
-        System.err.println("username is " + username + ", " + getRole().name());
+        System.err.println("[" + username + ", " + nickname + ", " + getRole().name() + "]");
         return authorities;
 	}
 
 	@Override
+	@JsonBackReference
 	public boolean isAccountNonExpired() {
 		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
+	@JsonBackReference
 	public boolean isAccountNonLocked() {
 		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
+	@JsonBackReference
 	public boolean isCredentialsNonExpired() {
 		return true;
 	}
 
 	@Override
+	@JsonBackReference
 	public boolean isEnabled() {
 		// TODO Auto-generated method stub
 		return true;
