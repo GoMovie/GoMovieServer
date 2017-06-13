@@ -1,4 +1,4 @@
-package com.c09.GoMovie.service;
+package com.c09.GoMovie.helper;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ import com.jayway.jsonpath.JsonPath;
 
 
 @Component
-public class DataInitService {
+public class DataInitHelper {
 
     @Autowired
     UserRepository userRepository;
@@ -32,8 +32,6 @@ public class DataInitService {
     @Autowired
     MovieCommentRepository movieCommentRepository;
 
-    static private String DOUBAN_API = "http://api.douban.com/v2/movie/in_theaters?count=100";
-    
     @PostConstruct
     public void userDataInit(){
         User admin = new User();
@@ -52,11 +50,11 @@ public class DataInitService {
     @PostConstruct
     public void movieDataInit(){
     	
-        User user = new User();
-        user.setUsername("user-for-comment");
-        user.setPassword("user");
-        userRepository.save(user);
-        
+//        User user = new User();
+//        user.setUsername("user-for-comment");
+//        user.setPassword("user");
+//        userRepository.save(user);
+//        
 //    	RestTemplate restTemplate = new RestTemplate();
 //    	ResponseEntity<String> responseEntity = restTemplate.getForEntity(DOUBAN_API, String.class);
 //    	String jsonResponse = responseEntity.getBody();
