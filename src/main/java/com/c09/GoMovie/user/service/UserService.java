@@ -1,4 +1,4 @@
-package com.c09.GoMovie.service;
+package com.c09.GoMovie.user.service;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,8 +15,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.c09.GoMovie.entities.User;
-import com.c09.GoMovie.entities.repositories.UserRepository;
+import com.c09.GoMovie.user.entities.User;
+import com.c09.GoMovie.user.entities.repositories.UserRepository;
 
 @Service
 public class UserService implements UserDetailsService {

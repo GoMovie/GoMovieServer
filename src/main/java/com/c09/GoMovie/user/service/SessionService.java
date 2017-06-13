@@ -1,4 +1,4 @@
-package com.c09.GoMovie.service;
+package com.c09.GoMovie.user.service;
 
 import java.sql.Timestamp;
 import java.util.UUID;
@@ -11,8 +11,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import com.c09.GoMovie.entities.User;
-import com.c09.GoMovie.entities.repositories.UserRepository;
+import com.c09.GoMovie.user.entities.User;
+import com.c09.GoMovie.user.entities.repositories.UserRepository;
 
 @Service
 public class SessionService {
@@ -26,8 +26,8 @@ public class SessionService {
 		if (authentication instanceof AnonymousAuthenticationToken) {
 			return null;
 		} else {
-			UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-			return userRepository.findByUsername(userDetails.getUsername());
+			return (User) authentication.getPrincipal();
+//			return userRepository.findByUsername(userDetails.getUsername());
 		}
 	}
 	

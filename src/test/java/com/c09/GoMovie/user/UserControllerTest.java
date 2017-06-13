@@ -1,4 +1,4 @@
-package com.c09.GoMovie;
+package com.c09.GoMovie.user;
 
 import static org.mockito.AdditionalAnswers.*;
 import static org.hamcrest.Matchers.*;
@@ -36,8 +36,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.client.RestTemplate;
 
-import com.c09.GoMovie.controller.UserController;
-import com.c09.GoMovie.entities.User;
+import com.c09.GoMovie.user.controller.UserController;
+import com.c09.GoMovie.user.entities.User;
 import com.jayway.jsonpath.JsonPath;
 
 
@@ -45,12 +45,10 @@ import com.jayway.jsonpath.JsonPath;
 @SpringApplicationConfiguration(classes = MockServletContext.class)  
 @WebAppConfiguration  
 public class UserControllerTest {
-	private static String BASE_URL = "http://localhost:8080/api";
-	
+
     private MockMvc mvc;  
     
-//    private RestTemplate restTemplate;
-    
+
     @Before  
     public void setUp() {  
         UserController userController = Mockito.mock(UserController.class);  
@@ -76,17 +74,17 @@ public class UserControllerTest {
         Mockito.when(userController.listUsers()).thenReturn(users);
         
         mvc = MockMvcBuilders.standaloneSetup(userController).build();
-//        restTemplate = new RestTemplate();
+
     }  
   
     @Test
     public void getUserById() throws Exception {
-    	ResultActions actions = mvc.perform(MockMvcRequestBuilders.get("/user/99")
+    	ResultActions actions = mvc.perform(MockMvcRequestBuilders.get("/users/99")
 				.accept(MediaType.APPLICATION_JSON));  
     	actions.andExpect(status().isOk());
     	actions.andExpect(jsonPath("$.username").value("test99"));
     	
-    	ResultActions actions2 = mvc.perform(MockMvcRequestBuilders.get("/user/100")
+    	ResultActions actions2 = mvc.perform(MockMvcRequestBuilders.get("/users/100")
 				.accept(MediaType.APPLICATION_JSON));  
     	actions2.andExpect(status().isOk());
     	actions2.andExpect(content().string(""));
@@ -94,7 +92,7 @@ public class UserControllerTest {
     
     @Test
     public void getUsers() throws Exception {
-    	ResultActions actions = mvc.perform(MockMvcRequestBuilders.get("/user/")
+    	ResultActions actions = mvc.perform(MockMvcRequestBuilders.get("/users")
 				.accept(MediaType.APPLICATION_JSON));  
     	actions.andExpect(status().isOk());
     	actions.andExpect(jsonPath("$.[0].username").value("test99"));
@@ -105,7 +103,7 @@ public class UserControllerTest {
     @Test  
     public void createUser() throws Exception {
     	String jsonStr = "{\"username\": \"test\", \"password\": \"test\"}";
-        ResultActions actions = mvc.perform(MockMvcRequestBuilders.post("/user/")
+        ResultActions actions = mvc.perform(MockMvcRequestBuilders.post("/users")
         				.contentType(MediaType.APPLICATION_JSON)
         				.content(jsonStr)
         				.accept(MediaType.APPLICATION_JSON));  
@@ -113,5 +111,13 @@ public class UserControllerTest {
         actions.andExpect(status().isCreated());
         actions.andExpect(jsonPath("$.username").value("test"));        
         actions.andExpect(jsonPath("$.role").value(User.ROLE.user.name()));
+        
+    	String jsonStr2 = "{\"username\": \"test\"}";
+        ResultActions actions2 = mvc.perform(MockMvcRequestBuilders.post("/users")
+        				.contentType(MediaType.APPLICATION_JSON)
+        				.content(jsonStr2)
+        				.accept(MediaType.APPLICATION_JSON));  
+
+        actions2.andExpect(status().isBadRequest());
     }
 }  

@@ -1,8 +1,10 @@
 # Server settings (ServerProperties)
 server:
   port: 8080
-  address: 127.0.0.1
-  sessionTimeout: 30
+  address: 0.0.0.0
+  session:
+#    timeout: 30
+    persistent: true
   contextPath: /api/
 
   # Tomcat specifics
@@ -16,11 +18,27 @@ server:
 # Spring settings
 spring: 
   # Use mysql, name of database is "GoMovie"
-#  datasource:
-#    driverClassName: com.mysql.jdbc.Driver
-#    url: jdbc:mysql://localhost:3306/GoMovie?useUnicode=true&characterEncoding=utf8
-#    username: root
-#    password:
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/GoMovie?useUnicode=true&characterEncoding=utf8
+    username: root
+    password:
+    
+  jpa:
+    hibernate:
+      ddl-auto: "create"
+    show-sql: true
+  cache:
+    type: redis
+
+    
+#  devtools:
+#    restart:
+#      enabled: false # 禁用热更新
+  
+#  http:
+#    encoding:
+#      charset: UTF-8
 
 # Security settings
 security: 
@@ -30,3 +48,12 @@ security:
 #    name: secured
 #    password: foo
 
+endpoints: 
+  sensitive: true
+
+management:
+  security:
+    role: "admin"
+    enabled: true
+  context-path: "/manage"
+  

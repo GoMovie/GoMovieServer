@@ -1,4 +1,4 @@
-package com.c09.GoMovie.entities;
+package com.c09.GoMovie.user.entities;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,17 +16,24 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import com.c09.GoMovie.movie.entities.MovieComment;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 
 @Entity
 public class User implements UserDetails {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6972959064945918099L;
 
 	public enum ROLE {
 		admin,
@@ -52,9 +59,11 @@ public class User implements UserDetails {
 	@Enumerated(EnumType.STRING)
     private ROLE role;
 
+	@NotNull
 	@Column(nullable=false, unique=true, length=30)
 	private String username;
 
+	@NotNull
 	@Column(nullable=false)
 	private String password;
 

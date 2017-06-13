@@ -1,4 +1,4 @@
-package com.c09.GoMovie.controller;
+package com.c09.GoMovie.user.controller;
 
 import javax.validation.Valid;
 
@@ -19,9 +19,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.c09.GoMovie.entities.User;
-import com.c09.GoMovie.service.SessionService;
-import com.c09.GoMovie.service.UserService;
+import com.c09.GoMovie.user.entities.User;
+import com.c09.GoMovie.user.service.SessionService;
+import com.c09.GoMovie.user.service.UserService;
 
 @RestController
 @RequestMapping("/users")
@@ -42,7 +42,6 @@ public class UserController {
     @RequestMapping(value={"", "/"}, method=RequestMethod.GET)
     @PreAuthorize("hasAuthority('admin')")
     public Iterable<User> listUsers() {
-    	User user = sessionService.getCurrentUser();
     	return userService.listUsers();
     }
     
