@@ -24,16 +24,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.c09.GoMovie.movie.entities.MovieComment;
+import com.c09.GoMovie.cinema.entities.CinemaComment;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 
 @Entity
 public class User implements UserDetails {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 6972959064945918099L;
 
 	public enum ROLE {
 		admin,
@@ -81,6 +77,9 @@ public class User implements UserDetails {
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy ="user", fetch=FetchType.LAZY)
 	List<MovieComment> movieComments = new ArrayList<MovieComment>();
+	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy ="user", fetch=FetchType.LAZY)
+	List<CinemaComment> cinemaComments = new ArrayList<CinemaComment>();
 
 	public String getNickname() {
 		return nickname;
@@ -169,6 +168,11 @@ public class User implements UserDetails {
 	public void addMovieComment(MovieComment movieComment) {
 		movieComment.setUser(this);
 		movieComments.add(movieComment);
+	}
+	
+	public void addCinemaComment(CinemaComment cinemaComment) {
+		cinemaComment.setUser(this);
+		cinemaComments.add(cinemaComment);
 	}
 
 	@Override
