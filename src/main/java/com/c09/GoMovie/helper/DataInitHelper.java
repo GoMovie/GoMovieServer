@@ -19,7 +19,6 @@ import com.c09.GoMovie.cinema.entities.repositories.CinemaCommentRepository;
 import com.c09.GoMovie.cinema.entities.repositories.CinemaRepository;
 import com.c09.GoMovie.cinema.entities.repositories.HallRepository;
 import com.c09.GoMovie.cinema.entities.repositories.SeatRepository;
-
 import com.c09.GoMovie.movie.entities.Movie;
 import com.c09.GoMovie.movie.entities.MovieComment;
 import com.c09.GoMovie.movie.entities.repositories.MovieCommentRepository;
@@ -52,8 +51,6 @@ public class DataInitHelper {
     
     @Autowired
     SeatRepository seatRepository;
-
-
 
     @PostConstruct
     public void userDataInit(){

@@ -16,9 +16,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotNull;
 
-import com.c09.GoMovie.cinema.entities.Cinema;
 import org.hibernate.validator.constraints.Range;
 
+import com.c09.GoMovie.cinema.entities.Cinema;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -142,3 +142,4 @@ public class Movie {
 	}
 	
 }
+
