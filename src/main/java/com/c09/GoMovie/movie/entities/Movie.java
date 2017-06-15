@@ -19,6 +19,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Range;
 
 import com.c09.GoMovie.cinema.entities.Cinema;
+import com.c09.GoMovie.product.entities.Screening;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -47,8 +48,6 @@ public class Movie {
 	
 	
 	private boolean onShow;
-
-
 	
 	public boolean isOnShow() {
 		return onShow;
@@ -141,5 +140,23 @@ public class Movie {
 		cinemas.add(cinema);
 	}
 	
-}
+	/*
+	 * 新增Screening List，和Screening形成一对多关系
+	 */
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "movie", fetch = FetchType.LAZY)    
+	List<Screening> screenings = new ArrayList<Screening>();
+	
+	@JsonBackReference
+	public List<Screening> getScreenings() {
+		return screenings;
+	}
 
+	@JsonIgnore
+	public void setScreenings(List<Screening> screenings) {
+		this.screenings = screenings;
+	}
+	
+	public void addScreening(Screening screening) {
+		screenings.add(screening);
+	}
+}

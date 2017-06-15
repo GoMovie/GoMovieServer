@@ -15,6 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
+import com.c09.GoMovie.product.entities.Screening;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -83,6 +84,23 @@ public class Hall {
 	public void addSeat(Seat seat) {
 		seat.setHall(this);
 		seats.add(seat);
+	}
+	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "hall", fetch = FetchType.LAZY)    
+	List<Screening> screenings = new ArrayList<Screening>();
+	
+	@JsonBackReference
+	public List<Screening> getScreenings() {
+		return screenings;
+	}
+
+	@JsonIgnore
+	public void setScreenings(List<Screening> screenings) {
+		this.screenings = screenings;
+	}
+	
+	public void addScreening(Screening screening) {
+		screenings.add(screening);
 	}
 	
 }
