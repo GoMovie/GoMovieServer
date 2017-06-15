@@ -16,22 +16,21 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.c09.GoMovie.cinema.entities.Cinema;
+import com.c09.GoMovie.cinema.entities.Hall;
+import com.c09.GoMovie.cinema.entities.Seat;
+import com.c09.GoMovie.cinema.service.CinemaService;
+import com.c09.GoMovie.movie.entities.Movie;
+import com.c09.GoMovie.movie.service.MovieService;
+import com.c09.GoMovie.product.entities.Screening;
+import com.c09.GoMovie.product.entities.Ticket;
+import com.c09.GoMovie.product.service.ProductService;
+import com.c09.GoMovie.user.entities.User;
+import com.c09.GoMovie.user.entities.User.ROLE;
 import com.c09.GoMovie.user.service.SessionService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-
-import com.c09.GoMovie.product.service.ProductService;
-import com.c09.GoMovie.cinema.service.CinemaService;
-import com.c09.GoMovie.movie.service.MovieService;
-import com.c09.GoMovie.user.entities.User;
-import com.c09.GoMovie.user.entities.User.ROLE;
-import com.c09.GoMovie.cinema.entities.Cinema;
-import com.c09.GoMovie.cinema.entities.Hall;
-import com.c09.GoMovie.movie.entities.Movie;
-import com.c09.GoMovie.cinema.entities.Seat;
-import com.c09.GoMovie.product.entities.Screening;
-import com.c09.GoMovie.product.entities.Ticket;
 
 @Api(value="产品模块", description="Screening、Ticket的CURD操作")
 @RestController
@@ -88,6 +87,17 @@ public class ProductController {
 		return new ResponseEntity<Ticket>(ticket, ticket != null ? HttpStatus.OK : HttpStatus.NOT_FOUND);
 	}
 	
+	@ApiOperation(value="创建一张电影票，电影票的seatId封装在json内，key值为seatId")
+	@RequestMapping(value = {"/{cinemaId}/screenings/{screeningId}/tickets"}, method = RequestMethod.POST)
+    @ResponseStatus(value = HttpStatus.CREATED)
+    @PreAuthorize("hasAuthority('admin')")
+    public Ticket createTicket(@Valid @RequestBody String jsonString, @PathVariable("screeningId") long screeningId) {
+		JSONObject json = new JSONObject(jsonString);
+		Ticket ticket = new Ticket();
+		ticket.setPrice(json.getDouble("price"));
+		long seatId = json.getLong("seatId");
+		return productService.createTicket(ticket, screeningId, seatId);
+	}
 	
 	@ApiOperation(value="根据电影票ID删除一张电影票")
 	@RequestMapping(value={"/{cinemaId}/screenings/{screeningId}/tickets/{id}"}, method=RequestMethod.DELETE)

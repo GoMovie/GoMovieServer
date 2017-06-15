@@ -24,16 +24,5 @@ public class Swagger2Config {
                 .paths(PathSelectors.any())
                 .build();
     }
-
-    private ApiInfo apiInfo() {
-        return new ApiInfoBuilder()
-                .title("GoMovie Backend API")
-                .description("基于 HTTP/JSON 的 RESTful API")
-                .termsOfServiceUrl("https://github.com/GoMovie/GoMovieServer.git")
-                .contact("GoMovie团队")
-                .version("1.0")
-                .build();
-    }
-
     
 }

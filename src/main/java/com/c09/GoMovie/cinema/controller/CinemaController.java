@@ -64,7 +64,16 @@ public class CinemaController {
 		Cinema cinema = cinemaService.getCinemaById(cinemaId);
 		return new ResponseEntity<Cinema>(cinema, cinema != null ? HttpStatus.OK : HttpStatus.NOT_FOUND);
 	}
-	  
+	
+	@ApiOperation(value="修改一个影院的信息")
+	@RequestMapping(value={"/{id}"}, method=RequestMethod.PUT)
+    @ResponseStatus(value = HttpStatus.OK)
+    @PreAuthorize("hasAuthority('admin')")
+    public void updateCinema(@Valid @RequestBody Cinema cinema, @PathVariable("id") long id) {
+		cinema.setId(id);
+		cinemaService.updataCinema(cinema);
+	}
+    
 	@ApiOperation(value="删除一个影院")
 	@RequestMapping(value={"/{id}"}, method=RequestMethod.DELETE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
@@ -108,6 +117,8 @@ public class CinemaController {
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @PreAuthorize("hasAnyAuthority('admin', 'user')")
     public void deleteCommentById(@PathVariable("cinemaId") long cinemaId, @PathVariable("commentId") long commentId) {
+    	User user = sessionService.getCurrentUser();
+    	CinemaComment cinemaComment = cinemaService.getCommentById(commentId);
     	if (user.getRole() == ROLE.admin || user.getId() == cinemaComment.getUser().getId()) {
     		if (cinemaComment.getCinema().getId() == cinemaId) {
     			cinemaService.deleteComment(cinemaComment);
@@ -147,6 +158,9 @@ public class CinemaController {
     @PreAuthorize("hasAnyAuthority('admin')")
     public void deleteHallById(@PathVariable("cinemaId") long cinemaId, @PathVariable("hallId") long hallId) {
     	Hall hall = cinemaService.getHallById(hallId);
+    	if (hall.getCinema().getId() == cinemaId) {
+    		cinemaService.deleteHall(hall);
+    	}
 	}
 	
 	@ApiOperation(value="获取一个影厅的所有座位")

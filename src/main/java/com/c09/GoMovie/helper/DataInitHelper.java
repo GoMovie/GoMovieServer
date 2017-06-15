@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
-
 import com.c09.GoMovie.cinema.entities.Cinema;
 import com.c09.GoMovie.cinema.entities.CinemaComment;
 import com.c09.GoMovie.cinema.entities.Hall;
@@ -20,19 +19,17 @@ import com.c09.GoMovie.cinema.entities.repositories.CinemaCommentRepository;
 import com.c09.GoMovie.cinema.entities.repositories.CinemaRepository;
 import com.c09.GoMovie.cinema.entities.repositories.HallRepository;
 import com.c09.GoMovie.cinema.entities.repositories.SeatRepository;
-
 import com.c09.GoMovie.movie.entities.Movie;
 import com.c09.GoMovie.movie.entities.MovieComment;
 import com.c09.GoMovie.movie.entities.repositories.MovieCommentRepository;
 import com.c09.GoMovie.movie.entities.repositories.MovieRepository;
 import com.c09.GoMovie.movie.service.MovieService;
-import com.c09.GoMovie.user.entities.User;
-import com.c09.GoMovie.user.entities.repositories.UserRepository;
-
 import com.c09.GoMovie.product.entities.Screening;
 import com.c09.GoMovie.product.entities.Ticket;
 import com.c09.GoMovie.product.entities.repositories.ScreeningRepository;
 import com.c09.GoMovie.product.entities.repositories.TicketRepository;
+import com.c09.GoMovie.user.entities.User;
+import com.c09.GoMovie.user.entities.repositories.UserRepository;
 import com.jayway.jsonpath.JsonPath;
 
 

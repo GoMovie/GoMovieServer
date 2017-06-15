@@ -17,11 +17,6 @@ server:
 
 # Spring settings
 spring: 
-  application:
-    name: "GoMovie"
-#  boot:
-#    admin:
-#      url: http://localhost:8080
   # Use mysql, name of database is "GoMovie"
   datasource:
     driverClassName: com.mysql.jdbc.Driver
@@ -63,7 +58,7 @@ security:
 #    password: foo
 
 endpoints: 
-  sensitive: false
+  sensitive: true
 
 management:
   security:

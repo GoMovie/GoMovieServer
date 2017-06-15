@@ -15,11 +15,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.JoinColumn;
 import javax.validation.constraints.NotNull;
 
-import com.c09.GoMovie.movie.entities.Movie;
 import com.c09.GoMovie.cinema.entities.Cinema;
+import com.c09.GoMovie.cinema.entities.Hall;
+import com.c09.GoMovie.movie.entities.Movie;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.c09.GoMovie.cinema.entities.Hall;
 
 @Entity
 public class Screening {
