@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
+
 import com.c09.GoMovie.cinema.entities.Cinema;
 import com.c09.GoMovie.cinema.entities.CinemaComment;
 import com.c09.GoMovie.cinema.entities.Hall;
@@ -19,6 +20,7 @@ import com.c09.GoMovie.cinema.entities.repositories.CinemaCommentRepository;
 import com.c09.GoMovie.cinema.entities.repositories.CinemaRepository;
 import com.c09.GoMovie.cinema.entities.repositories.HallRepository;
 import com.c09.GoMovie.cinema.entities.repositories.SeatRepository;
+
 import com.c09.GoMovie.movie.entities.Movie;
 import com.c09.GoMovie.movie.entities.MovieComment;
 import com.c09.GoMovie.movie.entities.repositories.MovieCommentRepository;
@@ -26,6 +28,11 @@ import com.c09.GoMovie.movie.entities.repositories.MovieRepository;
 import com.c09.GoMovie.movie.service.MovieService;
 import com.c09.GoMovie.user.entities.User;
 import com.c09.GoMovie.user.entities.repositories.UserRepository;
+
+import com.c09.GoMovie.product.entities.Screening;
+import com.c09.GoMovie.product.entities.Ticket;
+import com.c09.GoMovie.product.entities.repositories.ScreeningRepository;
+import com.c09.GoMovie.product.entities.repositories.TicketRepository;
 import com.jayway.jsonpath.JsonPath;
 
 
@@ -55,6 +62,12 @@ public class DataInitHelper {
 
     @Autowired
     MovieService movieService;
+    
+    @Autowired
+    ScreeningRepository screeningRepository;
+
+    @Autowired
+    TicketRepository ticketRepository;
     
     @PostConstruct
     public void userDataInit(){
@@ -165,6 +178,69 @@ public class DataInitHelper {
 	        }
 	        cinemaRepository.save(cinema);
 	        
+        }
+    }
+    
+    @PostConstruct
+    public void productDataInit() {
+    	/*
+    	 * 新建影院、影厅及座位
+    	 */
+    	Cinema cinema = new Cinema();
+        cinema.setName("cinema-for-Screening-and-Ticket");
+        cinema.setIntroduction("holy shit");
+        cinema.setLongitude(88.88);
+        cinema.setLatitude(88.88);
+        cinema.setCityId(231);
+        cinema.setAddress("shantou");
+        
+        for (int i = 0; i < 3; i++) {
+        	Hall hall = new Hall();
+        	hall.setName("hall-for-Screening-and-Ticket-" + i);
+        	
+        	for (int j = 0; j < 3; j++) {
+        		Seat seat = new Seat();
+        		seat.setCol(j);
+        		seat.setRow(j);;
+        		
+        		hall.addSeat(seat);;
+        	}
+        	
+        	cinema.addHall(hall);
+        }
+        cinemaRepository.save(cinema);
+        
+        /*
+         * 新建电影
+         */
+        Movie movie = new Movie();
+        movie.setTitle("movie-1-for-Screening");
+        movie.setRating(8.8);
+        movie.setId(110);
+        movieRepository.save(movie);
+        cinema.addMovie(movie);
+        
+        /*
+         * 新建场次和电影票
+         */
+        List<Hall> hallList = cinema.getHallls();
+        for (Hall hall : hallList) {
+        	Screening screening = new Screening();
+    		screening.setCinema(cinema);
+    		screening.setHall(hall);
+    		screening.setMovie(movie);
+    		screening.setStartTime("9:30");
+    		screening.setRunningTime(120);
+    		screeningRepository.save(screening);
+    		
+    		List<Seat> seatList = hall.getSeats();
+    		for (Seat seat : seatList) {
+    			Ticket ticket = new Ticket();
+        		ticket.setPrice(40);
+        		ticket.setScreening(screening);
+        		ticket.setSeat(seat);
+        		ticketRepository.save(ticket);
+    		}
         }
     }
 
