@@ -78,9 +78,6 @@ public class MovieService {
 	        }
 	        movie.setRating(rating);
 	        movie.setGenres(StringUtils.collectionToDelimitedString(genersList.get(k), ","));
-	        movie.setTitle(titleList.get(k));
-	        movie.setId(Long.parseLong(originalIdList.get(k)));
-	        movie.setOriginalTitle(originalTitleList.get(k));
 	        movie.setImageUrl(imageUrlList.get(k));
 	        movie.setOnShow(true);
 	        
@@ -122,12 +119,6 @@ public class MovieService {
     	List<Map<String, String>> casts = new ArrayList<Map<String, String>>();
     	List<String> castNameList = JsonPath.read(detailString, "$.casts[*].name");
     	List<String> castAvatarUrlList = JsonPath.read(detailString, "$.casts[*].avatars.small");    	
-    	for (int i = 0 ; i < castNameList.size() ; i++) {
-    		Map<String, String> m = new HashMap<String, String>();
-    		m.put("name", castNameList.get(i));
-    		m.put("avatarUrl", castAvatarUrlList.get(i));
-    		casts.add(m);
-    	}
     	map.put("casts", casts);
     	
     	List<Map<String, String>> directors = new ArrayList<Map<String, String>>();
@@ -152,17 +143,6 @@ public class MovieService {
 	 */
 	public List<MovieComment> listCommentsByMovieId(long id) {
 		return movieCommentRepository.findByMovieId(id);
-	}
-
-	/**
-	 * （已废弃） 创建电影
-	 * 
-	 * @param movie Movie实体
-	 * @return Movie实体
-	 */
-	@Deprecated
-	public Movie createMovie(Movie movie) {
-		return movieRepository.save(movie);
 	}
 
 	/**
@@ -198,17 +178,6 @@ public class MovieService {
 		movieComment.setUser(null);
 		movieComment.setMovie(null);
 		movieCommentRepository.delete(movieComment);
-	}
-
-	/**
-	 * （已废弃） 更新电影信息
-	 * 
-	 * @param movie 电影实体
-	 * @return
-	 */
-	@Deprecated
-	public Movie updateMovie(Movie movie) {
-		return movieRepository.save(movie);
 	}
 
 	/**

@@ -14,9 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -28,8 +25,6 @@ import com.c09.GoMovie.user.entities.User;
 import com.c09.GoMovie.user.service.SessionService;
 
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -50,14 +45,6 @@ public class MovieController {
     public Iterable<Movie> listMovies() {
     	return movieService.listMovies();
     }
-
-//    Not allowed to create movie by admin !    
-//    @RequestMapping(value = {""}, method = RequestMethod.POST)
-//    @ResponseStatus(value = HttpStatus.CREATED)
-//    @PreAuthorize("denyAll()") 
-//    public Movie createMovie(@Valid @RequestBody Movie movie) {
-//    	return movieService.createMovie(movie);
-//    }
 
 	@ApiOperation(value="获取单部电影的简单介绍")
     @RequestMapping(value="/{id}", method = RequestMethod.GET)
@@ -91,9 +78,6 @@ public class MovieController {
 
     // curl localhost:8080/api/movies/4/comments -u admin:admin -H "Content-Type: application/json" -d "{\"score\": 1000, \"content\":\"eat some shit\"}"
 	@ApiOperation(value="给特定电影增加一条评论")
-	@RequestMapping(value={"/{id}/comments"}, method=RequestMethod.POST)
-    @ResponseStatus(value = HttpStatus.CREATED)
-    @PreAuthorize("hasAnyAuthority('admin', 'user')")
     public MovieComment createComment(@Valid @RequestBody MovieComment movieComment, @PathVariable("id") long id) {
     	User user = sessionService.getCurrentUser();
     	Movie movie = movieService.getMovieById(id);
@@ -115,10 +99,6 @@ public class MovieController {
 	@ApiOperation(value="获取某部电影详细信息")
     @RequestMapping(value="/{id}/details", method = RequestMethod.GET)
     public Map<String, Object> getMovieDetailsByOriginalId(@PathVariable("id") String id) {
-//    	HttpHeaders headers = new HttpHeaders();
-//        MediaType mediaType = new MediaType("application", "json", Charset.forName("utf-8"));
-//        headers.setContentType(mediaType);
-//        return new ResponseEntity<String>(movieService.getMovieDetails(id), headers, HttpStatus.OK);
 		return movieService.getMovieDetails(id);
 	}
 }
