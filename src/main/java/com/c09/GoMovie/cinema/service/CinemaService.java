@@ -9,8 +9,8 @@ import com.c09.GoMovie.cinema.entities.Cinema;
 import com.c09.GoMovie.cinema.entities.CinemaComment;
 import com.c09.GoMovie.cinema.entities.Hall;
 import com.c09.GoMovie.cinema.entities.Seat;
-import com.c09.GoMovie.cinema.entities.repositories.CinemaCommentRepository;
 import com.c09.GoMovie.cinema.entities.repositories.CinemaRepository;
+import com.c09.GoMovie.cinema.entities.repositories.CinemaCommentRepository;
 import com.c09.GoMovie.cinema.entities.repositories.HallRepository;
 import com.c09.GoMovie.cinema.entities.repositories.SeatRepository;
 import com.c09.GoMovie.user.entities.User;
@@ -35,6 +35,10 @@ public class CinemaService {
 	
 	public Cinema createCinema(Cinema cinema) {
 		return cinemaRepository.save(cinema);
+	}
+	
+	public List<Cinema> listCinemasByCityId(int cityId) {
+		return cinemaRepository.findByCityId(cityId);
 	}
 	
 	public Cinema getCinemaById(long id) {
