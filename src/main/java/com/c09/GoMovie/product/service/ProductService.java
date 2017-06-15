@@ -7,9 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.c09.GoMovie.cinema.entities.Hall;
 import com.c09.GoMovie.cinema.entities.Seat;
-import com.c09.GoMovie.cinema.service.CinemaService;
 import com.c09.GoMovie.movie.entities.Movie;
-import com.c09.GoMovie.movie.service.MovieService;
 import com.c09.GoMovie.product.entities.Screening;
 import com.c09.GoMovie.product.entities.Ticket;
 import com.c09.GoMovie.product.entities.repositories.ScreeningRepository;
@@ -23,15 +21,8 @@ public class ProductService {
 	@Autowired
 	private TicketRepository ticketRepository;
 	
-	@Autowired
-	private CinemaService cinemaService;
-	
-	@Autowired
-	private MovieService movieService;
-	
-	public Screening createScreening(Screening screening) {
-		Hall hall = cinemaService.getHallById(screening.getHallId());
-		Movie movie = movieService.getMovieById(screening.getMovieId());
+	public Screening createScreening(Screening screening, Hall hall, Movie movie) {
+		if (!movie.isOnShow())return null;
 		screening.setHall(hall);
 		screening.setMovie(movie);
 		screening.setCinema(hall.getCinema());
