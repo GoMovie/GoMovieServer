@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.c09.GoMovie.user.entities.User;
 import com.c09.GoMovie.cinema.entities.Cinema;
 import com.c09.GoMovie.order.entities.Order;
 import com.c09.GoMovie.order.service.OrderService;
-import com.c09.GoMovie.user.entities.User;
 import com.c09.GoMovie.user.service.SessionService;
 
 import io.swagger.annotations.Api;

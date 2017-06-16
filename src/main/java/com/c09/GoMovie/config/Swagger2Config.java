@@ -29,7 +29,7 @@ public class Swagger2Config {
         return new ApiInfoBuilder()
                 .title("GoMovie Backend API")
                 .description("基于 HTTP/JSON 的 RESTful API")
-                .termsOfServiceUrl("https://github.com/GoMovie/GoMovieServer.git")
+                .termsOfServiceUrl("https://github.com/jayGoMovie")
                 .contact("GoMovie团队")
                 .version("1.0")
                 .build();

@@ -19,8 +19,8 @@ import javax.persistence.JoinColumn;
 import javax.validation.constraints.NotNull;
 
 import com.c09.GoMovie.cinema.entities.Seat;
-import com.c09.GoMovie.order.entities.Order;
 import com.c09.GoMovie.user.entities.User.ROLE;
+import com.c09.GoMovie.order.entities.Order;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 

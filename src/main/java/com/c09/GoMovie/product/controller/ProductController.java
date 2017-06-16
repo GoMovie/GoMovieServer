@@ -19,21 +19,22 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.c09.GoMovie.cinema.entities.Cinema;
-import com.c09.GoMovie.cinema.entities.Hall;
-import com.c09.GoMovie.cinema.entities.Seat;
-import com.c09.GoMovie.cinema.service.CinemaService;
-import com.c09.GoMovie.movie.entities.Movie;
-import com.c09.GoMovie.movie.service.MovieService;
-import com.c09.GoMovie.product.entities.Screening;
-import com.c09.GoMovie.product.entities.Ticket;
-import com.c09.GoMovie.product.service.ProductService;
-import com.c09.GoMovie.user.entities.User;
-import com.c09.GoMovie.user.entities.User.ROLE;
 import com.c09.GoMovie.user.service.SessionService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+
+import com.c09.GoMovie.product.service.ProductService;
+import com.c09.GoMovie.cinema.service.CinemaService;
+import com.c09.GoMovie.movie.service.MovieService;
+import com.c09.GoMovie.user.entities.User;
+import com.c09.GoMovie.user.entities.User.ROLE;
+import com.c09.GoMovie.cinema.entities.Cinema;
+import com.c09.GoMovie.cinema.entities.Hall;
+import com.c09.GoMovie.movie.entities.Movie;
+import com.c09.GoMovie.cinema.entities.Seat;
+import com.c09.GoMovie.product.entities.Screening;
+import com.c09.GoMovie.product.entities.Ticket;
 
 @Api(value="产品模块", description="Screening、Ticket的CURD操作")
 @RestController
