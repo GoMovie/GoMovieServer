@@ -208,4 +208,87 @@ public class Cinema {
 	public void addScreening(Screening screening) {
 		screenings.add(screening);
 	}
+
+	 @PostConstruct
+    public void orderDataInit(){
+
+    	User user = new User();
+        user.setUsername("user-for-Order");
+        user.setPassword("user");
+        userRepository.save(user);
+
+    	Cinema cinema = new Cinema();
+        cinema.setName("cinema-for-Order");
+        cinema.setIntroduction("holy shit");
+        cinema.setLongitude(88.88);
+        cinema.setLatitude(88.88);
+        cinema.setCityId(231);
+        cinema.setAddress("shantou");
+        
+        for (int i = 0; i < 3; i++) {
+        	Hall hall = new Hall();
+        	hall.setName("hall-for-Order-" + i);
+        	
+        	for (int j = 0; j < 3; j++) {
+        		Seat seat = new Seat();
+        		seat.setCol(j);
+        		seat.setRow(j);
+        		seat.setCoordinateX(j);
+        		seat.setCoordinateY(j);
+        		
+        		hall.addSeat(seat);;
+        	}
+        	
+        	cinema.addHall(hall);
+        }
+        cinemaRepository.save(cinema);
+        
+
+        Movie movie = new Movie();
+        movie.setTitle("movie-1-for-Order");
+        movie.setRating(8.8);
+        movie.setId(120);
+        movieRepository.save(movie);
+        cinema.addMovie(movie);
+        cinemaRepository.save(cinema);
+        
+
+        List<Hall> hallList = cinema.getHallls();
+        for (Hall hall : hallList) {
+        	Screening screening = new Screening();
+    		screening.setCinema(cinema);
+    		screening.setHall(hall);
+    		screening.setMovie(movie);
+    		screening.setRunningTime(150);
+    		
+    		Order order = new Order();
+        	order.setUser(user);
+    		
+    		try {
+    			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+				Date startTimeDate = sdf.parse("2016-06-01 15:30");
+				Date createTimeDate = sdf.parse("2016-06-01 08:30");
+				screening.setStartTime(startTimeDate);
+				order.setCreateTime(createTimeDate);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+    		
+    		screeningRepository.save(screening);
+    		
+    		List<Seat> seatList = hall.getSeats();
+    		for (Seat seat : seatList) {
+    			Ticket ticket = new Ticket();
+        		ticket.setPrice(50);
+        		ticket.setScreening(screening);
+        		ticket.setSeat(seat);
+        		ticketRepository.save(ticket);
+    		}
+    		
+    		List<Ticket> ticketList = screening.getTickets();
+    		order.setTickets(ticketList);
+    		
+    		orderRepository.save(order);
+        }
+    }
 }

@@ -102,4 +102,44 @@ public class CinemaComment {
 		this.cinema = cinema;
 	}
 
+	@RequestMapping(value={"/{id}"}, method=RequestMethod.PUT)
+    @ResponseStatus(value = HttpStatus.OK)
+    @PreAuthorize("hasAuthority('admin')")
+    public void updateMovie(@Valid @RequestBody Movie movie, @PathVariable("id") long id) {
+    	movie.setId(id);
+    	movieService.updateMovie(movie);
+    }
+    
+    @RequestMapping(value={"/{id}"}, method=RequestMethod.DELETE)
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasAuthority('admin')")
+    public void deleteMovieById(@PathVariable("id") long id) {
+    	movieService.deleteMovieById(id);
+      }
+      
+    @RequestMapping(value="/{id}/comments", method = RequestMethod.GET)
+    public List<MovieComment> getCommentsByMovieId(@PathVariable("id") long movieId) {
+    	return movieService.findAllCommentsByMovieId(movieId);
+    public List<MovieComment> listCommentsByMovieId(@PathVariable("id") long id) {
+    	return movieService.listCommentsByMovieId(id);
+    }
+    
+    @RequestMapping(value={"/{id}/comments"}, method=RequestMethod.POST)
+    @ResponseStatus(value = HttpStatus.CREATED)
+    @PreAuthorize("hasAuthority('admin', 'user')")
+    public void createComment(@Valid @RequestBody MovieComment movieComment, @PathVariable("id") long id) {
+    	User user = sessionService.getCurrentUser();
+    	Movie movie = movieService.getMovieById(id);
+    	movieService.createComment(movieComment, movie, user);
+    }
+    
+    @RequestMapping(value={"/{movieId}/comments/{commentId}"}, method=RequestMethod.DELETE)
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasAuthority('admin', 'user')")
+    public void deleteCommentById(@PathVariable("commentId") long id) {
+    	User user = sessionService.getCurrentUser();
+    	movieService.deleteCommentById(user, id);
+      }
+  }
+
 }
