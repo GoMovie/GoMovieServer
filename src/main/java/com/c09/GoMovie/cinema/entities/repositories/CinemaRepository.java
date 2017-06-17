@@ -9,5 +9,5 @@ import com.c09.GoMovie.cinema.entities.Cinema;
 import com.c09.GoMovie.cinema.entities.CinemaComment;
 
 public interface CinemaRepository extends JpaRepository<Cinema, Long> {
-	List<Cinema> findByCityId(int cityId);
+	List<Cinema> findByCityId(String cityId);
 }
