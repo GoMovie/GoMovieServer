@@ -16,11 +16,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.Range;
 
 import com.c09.GoMovie.cinema.entities.Cinema;
 import com.c09.GoMovie.product.entities.Screening;
-import org.hibernate.validator.constraints.Range;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -125,7 +124,7 @@ public class Movie {
 		movieComments.add(movieComment);
 	}
 	
-	@ManyToMany(mappedBy="movies")
+	@ManyToMany(mappedBy="movies", fetch=FetchType.LAZY)
     private List<Cinema> cinemas = new ArrayList<Cinema>();
 
 	@JsonBackReference

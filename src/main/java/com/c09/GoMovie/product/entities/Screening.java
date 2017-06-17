@@ -18,10 +18,10 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
-import com.c09.GoMovie.movie.entities.Movie;
 import com.c09.GoMovie.cinema.entities.Cinema;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.c09.GoMovie.cinema.entities.Hall;
+import com.c09.GoMovie.movie.entities.Movie;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Screening {
@@ -86,7 +86,7 @@ public class Screening {
 	}
 	
 	public void setMovie(Movie movie) {
-		movie.addScreening(this);
+		// movie.addScreening(this);
 		this.movie = movie;
 	}
 	
@@ -95,7 +95,7 @@ public class Screening {
 	}
 	
 	public void setHall(Hall hall) {
-		hall.addScreening(this);
+		// hall.addScreening(this);
 		this.hall = hall;
 	}
 	
@@ -119,7 +119,7 @@ public class Screening {
 	}
 	
 	public void setCinema(Cinema cinema) {
-		cinema.addScreening(this);
+		// cinema.addScreening(this);
 		this.cinema = cinema;
 	}
 }

@@ -23,8 +23,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import com.c09.GoMovie.movie.entities.MovieComment;
 import com.c09.GoMovie.cinema.entities.CinemaComment;
+import com.c09.GoMovie.movie.entities.MovieComment;
 import com.c09.GoMovie.order.entities.Order;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 

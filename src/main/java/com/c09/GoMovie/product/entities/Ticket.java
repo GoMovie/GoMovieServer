@@ -19,8 +19,8 @@ import javax.persistence.JoinColumn;
 import javax.validation.constraints.NotNull;
 
 import com.c09.GoMovie.cinema.entities.Seat;
-import com.c09.GoMovie.user.entities.User.ROLE;
 import com.c09.GoMovie.order.entities.Order;
+import com.c09.GoMovie.user.entities.User.ROLE;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -72,7 +72,7 @@ public class Ticket {
 	}
 	
 	public void setScreening(Screening screening) {
-		screening.addTicket(this);
+		// screening.addTicket(this);
 		this.screening = screening;
 	}
 	
@@ -81,7 +81,7 @@ public class Ticket {
 	}
 	
 	public void setSeat(Seat seat) {
-		seat.addTicket(this);
+		// seat.addTicket(this);
 		this.seat = seat;
 	}
 	
