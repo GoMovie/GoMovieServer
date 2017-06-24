@@ -57,7 +57,10 @@ public class MovieController {
     @RequestMapping(value="/{id}", method = RequestMethod.GET)
     public ResponseEntity<Movie> getMovieById(@PathVariable("id") long movieId) {
     	Movie movie = movieService.getMovieById(movieId);
-    	return new ResponseEntity<Movie>(movie, movie != null ? HttpStatus.OK : HttpStatus.NOT_FOUND);
+    	if (movie != null) {
+    		return return new ResponseEntity<Movie>(movie,HttpStatus.OK);
+    	}
+    	return new ResponseEntity<Movie>(movie, HttpStatus.NOT_FOUND);
     }
 	
 	@ApiOperation(value="获取某电影的对应的影院")
@@ -106,9 +109,7 @@ public class MovieController {
     public void deleteCommentById(@PathVariable("commentId") long id) {
     	User user = sessionService.getCurrentUser();
     	MovieComment movieComment = movieService.getCommentById(id);
-		if (user.getId() == movieComment.getUser().getId()) {
-			movieService.deleteComment(movieComment);
-		}
+		movieService.deleteComment(movieComment);
     }
     
 	@ApiOperation(value="获取某部电影详细信息")
@@ -117,6 +118,7 @@ public class MovieController {
 		return movieService.getMovieDetails(id);
 	}
 	
+	/*
 	@ApiOperation(value="收藏电影")
     @RequestMapping(value={"/{id}/collection"}, method=RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
@@ -142,5 +144,5 @@ public class MovieController {
 		User user = sessionService.getCurrentUser();
 		return movieService.listUserMovieCollections(user);
 	}
-	
+	*/
 }

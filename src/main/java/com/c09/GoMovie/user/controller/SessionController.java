@@ -24,7 +24,7 @@ public class SessionController {
 	private SessionService sessionService;
 	
 
-    // 将用户名和密码通过HTTP Basic Auth方式提交
+    // HTTP Basic Auth
 	@ApiOperation(value="用户登录")
 	@RequestMapping(value={"", "/"}, method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)

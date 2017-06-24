@@ -54,7 +54,7 @@ public class ProductController {
 	public Screening getScreeningById(@PathVariable("cinemaId") long cinemaId, @PathVariable("screeningId") long screeningId) {
 		return productService.getScreeningById(screeningId);
 	}
-	//场次的hallId、movieId封装在json内，key值为hallId、movieId, startTime类型为String，格式：\"yyyy-MM-dd hh:mm\"
+	//格式：\"yyyy-MM-dd hh:mm\"
 	@ApiOperation(value="创建一个场次")
 	@RequestMapping(value = {"/{cinemaId}/screenings"}, method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
