@@ -31,13 +31,13 @@ public class OrderService {
 		Order order = new Order();
 		JSONObject json = new JSONObject(jsonString);
 		
-		/*
-		 * 解析json的key、value值，并设置相应的order属性
-		 */
+
+		 //解析json
+
 		order.setUser(user);
-		/*
-		 * 设置“创建时间”属性
-		 */
+
+		 //设置“创建时间”属性:yyyy-mm-dd hh:mm
+
 		String createTimeString = json.getString("createTime");
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm");  
 	    Date createTimeDate;
@@ -48,13 +48,14 @@ public class OrderService {
 			e.printStackTrace();
 		}
 		
-		/*
-		 * 设置Tickets和amount总价属性
-		 */
+
+		 //设置Tickets和amount总价
+
 		double amount = 0;
-		JSONArray ticketsIdArray = json.getJSONArray("ticketsId");
-		for (int i = 0; i < ticketsIdArray.length(); ++i) {
-			Ticket ticket = ticketRepository.findOne(ticketsIdArray.getLong(i));
+		JSONArray ticketJSONARRAY = json.getJSONArray("ticketsId");
+		
+		for (int i = 0; i < ticketJSONARRAY.length(); ++i) {
+			Ticket ticket = ticketRepository.findOne(ticketJSONARRAY.getLong(i));
 			order.addTicket(ticket);
 			amount += ticket.getPrice();
 		}
@@ -62,6 +63,8 @@ public class OrderService {
 		
 		return orderRepository.save(order);
 	}
+	
+	
 	
 	public Order getOrderById(long id) {
 		return orderRepository.findOne(id);

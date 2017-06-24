@@ -13,7 +13,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
+import org.springframework.security.web.authentication.www.BasicAuthenticationep;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.c09.GoMovie.user.entities.User;
@@ -21,7 +21,6 @@ import com.c09.GoMovie.user.entities.repositories.UserRepository;
 import com.c09.GoMovie.user.service.UserService;
 
 @Configuration
-//@EnableGlobalMethodSecurity(securedEnabled=true)
 @EnableGlobalMethodSecurity(prePostEnabled=true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -35,9 +34,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
-		BasicAuthenticationEntryPoint entryPoint = new BasicAuthenticationEntryPoint();
-		entryPoint.setRealmName("GoMoive Authentication");
-		http.exceptionHandling().authenticationEntryPoint(entryPoint);
+		BasicAuthenticationep ep = new BasicAuthenticationep();
+		ep.setRealmName("GoMoive Authentication");
+		http.exceptionHandling().authenticationep(ep);
 		http.authorizeRequests()
 		.antMatchers("/manage/**").hasAnyAuthority("admin")
 		.antMatchers("/**").permitAll()

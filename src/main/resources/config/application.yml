@@ -1,28 +1,23 @@
-# Server settings (ServerProperties)
 server:
   port: 8080
   address: 0.0.0.0
   session:
-#    timeout: 30
+
     persistent: true
   contextPath: /api/
 
-  # Tomcat specifics
   tomcat:
     accessLogEnabled: true
     protocolHeader: x-forwarded-proto
     remoteIpHeader: x-forwarded-for
     basedir:
-    backgroundProcessorDelay: 30 # secs
+    backgroundProcessorDelay: 30
 
-# Spring settings
+
 spring: 
   application:
     name: "GoMovie"
-#  boot:
-#    admin:
-#      url: http://localhost:8080
-  # Use mysql, name of database is "GoMovie"
+
   datasource:
     driverClassName: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:3306/GoMovie?useUnicode=true&characterEncoding=utf8
@@ -43,27 +38,16 @@ spring:
     host: 127.0.0.1
     port: 6379
     pool:
-      max-idle: 8 # pool settings ...  
+      max-idle: 8
       min-idle: 0
       max-active: 8
       max-wait: -1
     timeout: 0
 
-#  devtools:
-#    restart:
-#      enabled: false # 禁用热更新
-  
-#  http:
-#    encoding:
-#      charset: UTF-8
 
-# Security settings
 security: 
   basic:
     enabled: true
-#  user:
-#    name: secured
-#    password: foo
 
 endpoints: 
   sensitive: false

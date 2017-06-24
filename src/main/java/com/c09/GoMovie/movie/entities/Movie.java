@@ -34,7 +34,6 @@ public class Movie {
 
 	@Id
 	@NotNull
-//	@GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;
 
 	@NotNull
@@ -184,9 +183,6 @@ public class Movie {
 		cinemas.add(cinema);
 	}
 	
-	/*
-	 * 新增Screening List，和Screening形成一对多关系
-	 */
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "movie", fetch = FetchType.LAZY)    
 	List<Screening> screenings = new ArrayList<Screening>();
 	

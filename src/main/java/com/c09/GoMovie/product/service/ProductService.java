@@ -30,6 +30,7 @@ public class ProductService {
 	private MovieService movieService;
 	
 	public Screening createScreening(Screening screening, long hallId, long movieId) {
+		
 		Hall hall = cinemaService.getHallById(hallId);
 		Movie movie = movieService.getMovieById(movieId);
 		screening.setHall(hall);
@@ -51,6 +52,7 @@ public class ProductService {
 	}
 	
 	public Ticket createTicket(Ticket ticket, long screeningId, long seatId) {
+		
 		Screening screening = getScreeningById(screeningId);
 		Seat seat = cinemaService.getSeatById(seatId);
 		ticket.setScreening(screening);

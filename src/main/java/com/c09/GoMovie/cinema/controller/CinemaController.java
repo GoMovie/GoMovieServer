@@ -15,7 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import com.c09.GoMovie.cinema.entities.Cinema;
 import com.c09.GoMovie.cinema.entities.CinemaComment;
 import com.c09.GoMovie.cinema.entities.Hall;
@@ -25,13 +26,14 @@ import com.c09.GoMovie.user.entities.User;
 import com.c09.GoMovie.user.entities.User.ROLE;
 import com.c09.GoMovie.user.service.SessionService;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 
-@Api(value="Cinema", description="Cinema、CinemaComment、Hall和Seat的CURD操作")
+
+@Api(value="Cinema", description="Cinema、CinemaComment、Hall和Seat的CURD")
 @RestController
 @RequestMapping("/cinemas")
 public class CinemaController {
+	
+	
 	@Autowired
 	private CinemaService cinemaService;
 
@@ -152,15 +154,14 @@ public class CinemaController {
 		return new ResponseEntity<Hall>(hall = null, HttpStatus.NOT_FOUND);
 	}
 	
+	
 	@ApiOperation(value="删除影厅")
 	@RequestMapping(value={"/{cinemaId}/halls/{hallId}"}, method=RequestMethod.DELETE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @PreAuthorize("hasAnyAuthority('admin')")
     public void deleteHallById(@PathVariable("cinemaId") long cinemaId, @PathVariable("hallId") long hallId) {
     	Hall hall = cinemaService.getHallById(hallId);
-    	if (hall.getCinema().getId() == cinemaId) {
-    		cinemaService.deleteHall(hall);
-    	}
+    	cinemaService.deleteHall(hall);
 	}
 	
 	@ApiOperation(value="获取某个影厅的所有座位")
@@ -191,10 +192,7 @@ public class CinemaController {
 	public ResponseEntity<Seat> getSeatById(@PathVariable("cinemaId") long cinemaId, @PathVariable("hallId") long hallId, @PathVariable("seatId") long seatId) {
 		Hall hall = cinemaService.getHallById(hallId);
 		Seat seat = cinemaService.getSeatById(seatId);
-		if (hall.getCinema().getId() == cinemaId && seat.getHall().getId() == hallId) {
-			return new ResponseEntity<Seat>(seat, seat != null ? HttpStatus.OK : HttpStatus.NOT_FOUND);
-		}
-		return new ResponseEntity<Seat>(seat = null, HttpStatus.NOT_FOUND);
+		return new ResponseEntity<Seat>(seat, seat != null ? HttpStatus.OK : HttpStatus.NOT_FOUND);
 	}
 	
 	@ApiOperation(value="删除座位")
@@ -204,9 +202,7 @@ public class CinemaController {
     public void deleteHallById(@PathVariable("cinemaId") long cinemaId, @PathVariable("hallId") long hallId, @PathVariable("seatId") long seatId) {
     	Hall hall = cinemaService.getHallById(hallId);
     	Seat seat = cinemaService.getSeatById(seatId);
-    	if (hall.getCinema().getId() == cinemaId && seat.getHall().getId() == hallId) {
-    		cinemaService.deleteSeat(seat);
-    	}
+    	cinemaService.deleteSeat(seat);
 	}
 	
 }

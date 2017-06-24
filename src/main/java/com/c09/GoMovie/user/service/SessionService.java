@@ -23,21 +23,21 @@ public class SessionService {
 	public User getCurrentUser() {
 		Authentication authentication = (Authentication) SecurityContextHolder.getContext()
 		    .getAuthentication();
+		
 		if (authentication instanceof AnonymousAuthenticationToken) {
 			return null;
 		} else {
 			return (User) authentication.getPrincipal();
-//			return userRepository.findByUsername(userDetails.getUsername());
 		}
 	}
 	
 	public void login() {
-		// Do nothing, just return the cookies
+		// Todos
 		return;
 	}
 	
 	public void logout() {
-		// Actually I don't know what should I do...
+		// Todos
 		return;
 	}
 	

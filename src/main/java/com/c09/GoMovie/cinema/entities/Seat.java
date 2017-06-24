@@ -31,25 +31,25 @@ public class Seat {
 	
 	@NotNull
 	@Min(value=0)
-	@Max(value=1000)
+	@Max(value=100)
 	@Column(nullable=false)
 	private Integer row;
 	
 	@NotNull
 	@Min(value=0)
-	@Max(value=1000)
+	@Max(value=100)
 	@Column(nullable=false)
 	private Integer col;
 	
 	@NotNull
 	@Min(value=0)
-	@Max(value=1000)
+	@Max(value=100)
 	@Column(nullable=false)
 	private Integer coordinateX;
 	
 	@NotNull
 	@Min(value=0)
-	@Max(value=1000)
+	@Max(value=100)
 	@Column(nullable=false)
 	private Integer coordinateY;
 	

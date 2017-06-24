@@ -67,25 +67,22 @@ public class RedisConfig extends CachingConfigurerSupport {
 		JedisConnectionFactory factory = new JedisConnectionFactory();
 		factory.setHostName(host);
 		factory.setPort(port);
-		factory.setTimeout(timeout); //设置连接超时时间
+		factory.setTimeout(timeout); //set time out
 		return factory;
 	}
   
 	@Bean
 	public CacheManager cacheManager(@SuppressWarnings("rawtypes") RedisTemplate redisTemplate) {
 		RedisCacheManager cacheManager = new RedisCacheManager(redisTemplate);
-		// Number of seconds before expiration. Defaults to unlimited (0)
 		cacheManager.setDefaultExpiration(60); //设置key-value超时时间
-//		Collection<String> cacheNames = new ArrayList<String>();
-//		cacheNames.add("GoMoive");
-//		cacheManager.setCacheNames(cacheNames);
+
 		return cacheManager;
 	}
   
 	@Bean
 	public RedisTemplate<String, String> redisTemplate(RedisConnectionFactory factory) {
 		StringRedisTemplate template = new StringRedisTemplate(factory);
-		setSerializer(template); //设置序列化工具，这样ReportBean不需要实现Serializable接口
+		setSerializer(template); //设置序列化工具
 		template.afterPropertiesSet();
 		return template;
 	}

@@ -1,5 +1,6 @@
 package com.c09.GoMovie.order.entities;
-
+import com.c09.GoMovie.product.entities.Ticket;
+import com.c09.GoMovie.user.entities.User;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -23,8 +24,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.c09.GoMovie.product.entities.Ticket;
-import com.c09.GoMovie.user.entities.User;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -32,8 +32,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class Order {
 
 	public enum STATE {
-		unPaid,
 		paid,
+		unpaid,
 		cancelled,
 		finished
 	}
@@ -56,7 +56,7 @@ public class Order {
 	@Temporal(TemporalType.TIMESTAMP)
     private Date createTime;
 
-	@OneToMany(cascade = { CascadeType.MERGE,CascadeType.REFRESH },fetch=FetchType.LAZY)  //  级联保存、更新、删除、刷新;延迟加载
+	@OneToMany(cascade = { CascadeType.MERGE,CascadeType.REFRESH },fetch=FetchType.LAZY) 
 	List<Ticket> tickets = new ArrayList<Ticket>();
 	
 	@NotNull

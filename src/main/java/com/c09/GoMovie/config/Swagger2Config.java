@@ -31,7 +31,7 @@ public class Swagger2Config {
                 .description("基于 HTTP/JSON 的 RESTful API")
                 .termsOfServiceUrl("https://github.com/GoMoive")
                 .contact("GoMoive团队")
-                .version("1.0")
+                .version("2.0")
                 .build();
     }
 

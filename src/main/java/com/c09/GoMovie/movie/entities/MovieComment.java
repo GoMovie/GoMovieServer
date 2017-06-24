@@ -29,7 +29,7 @@ public class MovieComment {
 
 	@NotNull
 	@Min(value=0)
-	@Max(value=10)
+	@Max(value=100)
 	@Column(nullable=false)
 	private Integer score;
 

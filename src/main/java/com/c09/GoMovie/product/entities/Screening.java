@@ -31,13 +31,13 @@ public class Screening {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;
 	
-	// 电影开始时间，类型为字符串
+	// 开始时间
 	@NotNull
 	@Column(nullable=false)
 	@Temporal(TemporalType.TIMESTAMP)
     private Date startTime;
 	
-	// 电影片长分钟数，类型为整数
+	// 片长
 	@NotNull
 	@Column(nullable=false)
 	private int runningTime;
@@ -86,7 +86,6 @@ public class Screening {
 	}
 	
 	public void setMovie(Movie movie) {
-		// movie.addScreening(this);
 		this.movie = movie;
 	}
 	
@@ -95,7 +94,6 @@ public class Screening {
 	}
 	
 	public void setHall(Hall hall) {
-		// hall.addScreening(this);
 		this.hall = hall;
 	}
 	
@@ -119,7 +117,6 @@ public class Screening {
 	}
 	
 	public void setCinema(Cinema cinema) {
-		// cinema.addScreening(this);
 		this.cinema = cinema;
 	}
 }

@@ -1,7 +1,10 @@
 package com.c09.GoMovie.user.controller;
 
 import javax.validation.Valid;
-
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.HttpStatus;
@@ -23,10 +26,7 @@ import com.c09.GoMovie.user.entities.User;
 import com.c09.GoMovie.user.service.SessionService;
 import com.c09.GoMovie.user.service.UserService;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+
 
 
 @Api(value="用户模块", description="用户实体的CURD操作")

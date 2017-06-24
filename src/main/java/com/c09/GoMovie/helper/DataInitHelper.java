@@ -118,21 +118,24 @@ public class DataInitHelper {
         movies = movieRepository.findAll();
         
         
-        //
+        //Init product
         String[] cinemaName = {"大学城珠江国际影城", "横店电影城（广州南沙店）", "中影火山湖（番禺区店）"};
         String[] hallType = {"2D影厅", "3D影厅", "IMAX影厅"};
         String[] cinemaAddresses = {"番禺区小谷围街贝岗村中二横路1号高高新天地商业广场B2B001铺", "南沙区进港大道奥园海景城4楼(蕉地铁站)", "广州市番禺区桥南街桥南路108号3楼"};
         
         for (int k = 0 ; k < 3 ; k++) {
+        	
 	        Cinema cinema = new Cinema();
 	        cinema.setName(cinemaName[k]);
-	        cinema.setIntroduction("看你想看的，嘿嘿嘿");
+	        cinema.setAddress(cinemaAddresses[k]);
+	        cinema.setPhone("020-66666666");
 	        cinema.setLongitude(113.0);
 	        cinema.setLatitude(23.0);
 	        cinema.setCityId("020");
-	        cinema.setAddress(cinemaAddresses[k]);
-	        cinema.setPhone("020-66666666");
 	        cinema.setScore(3.0);
+	        cinema.setIntroduction("看你想看的，嘿嘿嘿");
+	        
+	        
 	        for (int i = 0; i < 3; i++) {
 	        	Hall hall = new Hall();
 	        	hall.setName(hallType[i]);
@@ -216,6 +219,6 @@ public class DataInitHelper {
     @PostConstruct
     public void foobarDataInit(){
     	// TODO movie data init
-    	System.err.println("It seems work, hehe.");
+    	System.err.println("Init Error");
     }
 }

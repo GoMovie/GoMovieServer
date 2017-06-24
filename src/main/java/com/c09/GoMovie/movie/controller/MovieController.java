@@ -118,7 +118,6 @@ public class MovieController {
 		return movieService.getMovieDetails(id);
 	}
 	
-	/*
 	@ApiOperation(value="收藏电影")
     @RequestMapping(value={"/{id}/collection"}, method=RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
@@ -144,5 +143,4 @@ public class MovieController {
 		User user = sessionService.getCurrentUser();
 		return movieService.listUserMovieCollections(user);
 	}
-	*/
 }

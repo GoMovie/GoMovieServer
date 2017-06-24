@@ -5,6 +5,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.c09.GoMovie.cinema.entities.Cinema;
+import com.c09.GoMovie.movie.entities.Movie;
+import com.c09.GoMovie.movie.entities.MovieComment;
+import com.c09.GoMovie.movie.entities.repositories.MovieCommentRepository;
+import com.c09.GoMovie.movie.entities.repositories.MovieRepository;
+import com.c09.GoMovie.user.entities.User;
+import com.c09.GoMovie.user.entities.repositories.UserRepository;
+
 import org.neo4j.cypher.internal.compiler.v2_2.commands.indexQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
@@ -14,13 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
-import com.c09.GoMovie.cinema.entities.Cinema;
-import com.c09.GoMovie.movie.entities.Movie;
-import com.c09.GoMovie.movie.entities.MovieComment;
-import com.c09.GoMovie.movie.entities.repositories.MovieCommentRepository;
-import com.c09.GoMovie.movie.entities.repositories.MovieRepository;
-import com.c09.GoMovie.user.entities.User;
-import com.c09.GoMovie.user.entities.repositories.UserRepository;
+
 import com.jayway.jsonpath.JsonPath;
 
 @Service
@@ -36,12 +38,7 @@ public class MovieService {
     static private String DOUBAN_ON_SHOW_API = "http://api.douban.com/v2/movie/in_theaters?count=100";
     
     static private String DOUBAN_DETAIL_API = "http://api.douban.com/v2/movie/subject/";
-    
-    /**
-     * 获取电影列表
-     * 
-     * @return Movie实体列表
-     */
+    //从豆瓣获取电影列表
     @Cacheable
 	public Iterable<Movie> listMovies() {
 
@@ -52,16 +49,16 @@ public class MovieService {
     	}
     	movieRepository.save(movies);
     	
-    	System.out.println("Getting on show movies from douban");    	
+    	System.out.println("Fetching movies from douban");    	
     	RestTemplate restTemplate = new RestTemplate();
     	ResponseEntity<String> responseEntity = restTemplate.getForEntity(DOUBAN_ON_SHOW_API, String.class);
     	String jsonResponse = responseEntity.getBody();
     	
     	int total = JsonPath.read(jsonResponse, "$.total");
-    	List<Object> ratingList = JsonPath.read(jsonResponse, "$.subjects[*].rating.average");    	
-    	List<List<String>> genersList = JsonPath.read(jsonResponse, "$.subjects[*].genres");
-    	List<String> titleList = JsonPath.read(jsonResponse, "$.subjects[*].title");
-    	List<String> originalTitleList =  JsonPath.read(jsonResponse, "$.subjects[*].original_title");
+    	List<Object> ratings = JsonPath.read(jsonResponse, "$.subjects[*].rating.average");    	
+    	List<List<String>> geners = JsonPath.read(jsonResponse, "$.subjects[*].genres");
+    	List<String> titles = JsonPath.read(jsonResponse, "$.subjects[*].title");
+    	List<String> originaltitles =  JsonPath.read(jsonResponse, "$.subjects[*].original_title");
     	List<String> originalIdList = JsonPath.read(jsonResponse, "$.subjects[*].id");
     	List<String> imageUrlList = JsonPath.read(jsonResponse, "$.subjects[*].images.medium");
 
@@ -73,16 +70,16 @@ public class MovieService {
 	        
 	        Double rating;
 	        try {
-	        	rating = (Double) ratingList.get(k);
+	        	rating = (Double) ratings.get(k);
 	        } catch (Exception e) {
-	        	Integer temp = (Integer) ratingList.get(k);
+	        	Integer temp = (Integer) ratings.get(k);
 	        	rating = temp.doubleValue();
 	        }
 	        movie.setRating(rating);
-	        movie.setGenres(StringUtils.collectionToDelimitedString(genersList.get(k), ","));
-	        movie.setTitle(titleList.get(k));
+	        movie.setGenres(StringUtils.collectionToDelimitedString(geners.get(k), ","));
+	        movie.setTitle(titles.get(k));
 	        movie.setId(Long.parseLong(originalIdList.get(k)));
-	        movie.setOriginalTitle(originalTitleList.get(k));
+	        movie.setOriginalTitle(originaltitles.get(k));
 	        movie.setImageUrl(imageUrlList.get(k));
 	        movie.setOnShow(true);
 	        
@@ -95,23 +92,19 @@ public class MovieService {
 	}
 
     
-    /**
-     * 获取单部电影
-     * 
-     * @param id 电影id
-     * @return 单个Movie实体
-     */
+    //获取单部电影
 	@Cacheable(condition = "#result != null")
 	public Movie getMovieById(long id) {
 		return movieRepository.findOne(id);
 	}
 	
-	/**
-	 * 获取单部电影详情
-	 * 
-	 * @param originalId 电影id
-	 * @return	豆瓣电影API返回的json字符串
-	 */
+	//推荐电影
+	@Cacheable(condition = "#result != null")
+	public Movie getRecommendedMovie() {
+		return movieRepository.findOne(0);
+	}
+	
+	//获取单部电影的详情
 	@Cacheable
 	public Map<String, Object> getMovieDetails(String originalId) {
     	RestTemplate restTemplate = new RestTemplate();
@@ -146,78 +139,35 @@ public class MovieService {
     	return map;
 	}
 
-	/**
-	 * 按照电影id获取评论列表
-	 * 
-	 * @param id  电影id
-	 * @return	MovieComments的实体列表
-	 */
+	//获取电影获取评论
 	public List<MovieComment> listCommentsByMovieId(long id) {
 		return movieCommentRepository.findByMovieId(id);
 	}
 
-	/**
-	 * （已废弃） 创建电影
-	 * 
-	 * @param movie Movie实体
-	 * @return Movie实体
-	 */
-	@Deprecated
-	public Movie createMovie(Movie movie) {
-		return movieRepository.save(movie);
-	}
+	
 
-	/**
-	 * 获取某个id的评论
-	 * 
-	 * @param id 评论id
-	 * @return	MovieComment实体
-	 */
+	//获取某个评论
 	public MovieComment getCommentById(long id) {
 		return movieCommentRepository.findOne(id);
 	}
 
-	/**
-	 * 创建评论
-	 * 
-	 * @param movieComment 评论实体
-	 * @param movie 电影实体
-	 * @param user 用户实体
-	 * @return  创建成功后的评论实体
-	 */
+	//创建评论
 	public MovieComment createComment(MovieComment movieComment, Movie movie, User user) {
         movieComment.setUser(user);
         movieComment.setMovie(movie);
         return movieCommentRepository.save(movieComment);
 	}
 
-	/**
-	 * 删除评论
-	 * 
-	 * @param movieComment 评论实体
-	 */
+	//删除评论
 	public void deleteComment(MovieComment movieComment) {
 		movieComment.setUser(null);
 		movieComment.setMovie(null);
 		movieCommentRepository.delete(movieComment);
 	}
 
-	/**
-	 * （已废弃） 更新电影信息
-	 * 
-	 * @param movie 电影实体
-	 * @return
-	 */
-	@Deprecated
-	public Movie updateMovie(Movie movie) {
-		return movieRepository.save(movie);
-	}
+	
 
-	/**
-	 * 删除电影
-	 * 
-	 * @param id 电影id
-	 */
+	//根据id删除评论
 	public void deleteMovieById(long id) {
 		movieRepository.delete(id);
 	}
@@ -227,9 +177,7 @@ public class MovieService {
 		return movieRepository.findOne(id).getCinemas();
 	}
 	
-//	public List<User> listCollectorByMovieId(long id) {
-//		return movieRepository.findOne(id).getUsers();
-//	}
+
 	
 	public void collectMovie(long movieId, User user) {
 		movieRepository.findOne(movieId).addUser(user);
