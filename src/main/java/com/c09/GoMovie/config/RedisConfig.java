@@ -77,7 +77,7 @@ public class RedisConfig extends CachingConfigurerSupport {
 		// Number of seconds before expiration. Defaults to unlimited (0)
 		cacheManager.setDefaultExpiration(60); //设置key-value超时时间
 //		Collection<String> cacheNames = new ArrayList<String>();
-//		cacheNames.add("GoMovie");
+//		cacheNames.add("GoMoive");
 //		cacheManager.setCacheNames(cacheNames);
 		return cacheManager;
 	}

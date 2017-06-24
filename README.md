@@ -1,1 +1,2 @@
-# GoMovieServer
+# GoMovieServerForSpring
+GoMovie后端

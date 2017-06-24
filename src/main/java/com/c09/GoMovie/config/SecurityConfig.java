@@ -36,7 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
 		BasicAuthenticationEntryPoint entryPoint = new BasicAuthenticationEntryPoint();
-		entryPoint.setRealmName("GoMovie Authentication");
+		entryPoint.setRealmName("GoMoive Authentication");
 		http.exceptionHandling().authenticationEntryPoint(entryPoint);
 		http.authorizeRequests()
 		.antMatchers("/manage/**").hasAnyAuthority("admin")
