@@ -15,7 +15,7 @@ import com.c09.GoMovie.user.service.SessionService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-@Api(value="会话模块", description="管理用户会话信息")
+@Api(value="Session", description="管理Session")
 @RestController
 @RequestMapping("/session")
 public class SessionController {
@@ -23,15 +23,9 @@ public class SessionController {
 	@Autowired
 	private SessionService sessionService;
 	
-	@ApiOperation(value="获取当前登陆的用户信息")
-    @RequestMapping(value={"", "/"}, method = RequestMethod.GET)
-    @PreAuthorize("hasAnyAuthority({'admin', 'user'})")
-    public User getCurrentUser() {
-    	return sessionService.getCurrentUser();
-    }
-    
-    // curl localhost:8080/api/session -H "Content-Type:application/json" -u user:user -d "{}"
-	@ApiOperation(value="用户登录", notes="将用户名和密码通过HTTP Basic Auth方式提交")
+
+    // 将用户名和密码通过HTTP Basic Auth方式提交
+	@ApiOperation(value="用户登录")
 	@RequestMapping(value={"", "/"}, method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
     @PreAuthorize("hasAnyAuthority({'admin', 'user'})")
@@ -39,11 +33,18 @@ public class SessionController {
     	sessionService.login();
     }
     
-	@ApiOperation(value="用户登出")
+	@ApiOperation(value="用户注销")
     @RequestMapping(value={"", "/"}, method = RequestMethod.DELETE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @PreAuthorize("hasAnyAuthority({'admin', 'user'})")
     public void logout() {
     	sessionService.logout();
+    }
+	
+	@ApiOperation(value="获取在线用户")
+    @RequestMapping(value={"", "/"}, method = RequestMethod.GET)
+    @PreAuthorize("hasAnyAuthority({'admin', 'user'})")
+    public User getCurrentUser() {
+    	return sessionService.getCurrentUser();
     }
 }

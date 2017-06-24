@@ -28,7 +28,7 @@ import com.c09.GoMovie.user.service.SessionService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-@Api(value="影院模块", description="Cinema、CinemaComment、Hall以及Seat的CURD操作")
+@Api(value="Cinema", description="Cinema、CinemaComment、Hall和Seat的CURD操作")
 @RestController
 @RequestMapping("/cinemas")
 public class CinemaController {
@@ -38,13 +38,13 @@ public class CinemaController {
 	@Autowired
 	private SessionService sessionService;
 	
-	@ApiOperation(value="获取所有影院")
+	@ApiOperation(value="获取影院")
 	@RequestMapping(value = {""}, method = RequestMethod.GET)
     public Iterable<Cinema> listCinemas() {
 		return cinemaService.listCinemas();
 	}
 	
-	@ApiOperation(value="创建一个影院")
+	@ApiOperation(value="创建影院")
 	@RequestMapping(value = {""}, method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
     @PreAuthorize("hasAuthority('admin')")
@@ -52,20 +52,20 @@ public class CinemaController {
 		return cinemaService.createCinema(cinema);
 	}
 	
-	@ApiOperation(value="根据城市Id获取当地所有影院")
+	@ApiOperation(value="由城市获取当地影院")
 	@RequestMapping(value = {"/cities/{cityId}"}, method = RequestMethod.GET)
     public List<Cinema> listCinemasByCityId(@PathVariable("cityId") String cityId) {
 		return cinemaService.listCinemasByCityId(cityId);
 	}
 	
-	@ApiOperation(value="获取单个影院的信息")
+	@ApiOperation(value="获取某个影院")
 	@RequestMapping(value="/{id}", method = RequestMethod.GET)
     public ResponseEntity<Cinema> getCinemaById(@PathVariable("id") long cinemaId) {
 		Cinema cinema = cinemaService.getCinemaById(cinemaId);
 		return new ResponseEntity<Cinema>(cinema, cinema != null ? HttpStatus.OK : HttpStatus.NOT_FOUND);
 	}
 	
-	@ApiOperation(value="修改一个影院的信息")
+	@ApiOperation(value="修改某个影院")
 	@RequestMapping(value={"/{id}"}, method=RequestMethod.PUT)
     @ResponseStatus(value = HttpStatus.OK)
     @PreAuthorize("hasAuthority('admin')")
@@ -74,7 +74,7 @@ public class CinemaController {
 		cinemaService.updataCinema(cinema);
 	}
     
-	@ApiOperation(value="删除一个影院")
+	@ApiOperation(value="删除某个影院")
 	@RequestMapping(value={"/{id}"}, method=RequestMethod.DELETE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @PreAuthorize("hasAuthority('admin')")
@@ -82,13 +82,13 @@ public class CinemaController {
 		cinemaService.deleteCinemaById(id);
 	}
     
-	@ApiOperation(value="获取一个影院的所有评论")
+	@ApiOperation(value="获取某个影院的评论")
 	@RequestMapping(value="/{id}/comments", method = RequestMethod.GET)
     public List<CinemaComment> listCommentsByCinemaId(@PathVariable("id") long id) {
 		return cinemaService.listCommentsByCinemaId(id);
 	}
 	
-	@ApiOperation(value="创建一个影院评论")
+	@ApiOperation(value="创建影院评论")
 	@RequestMapping(value={"/{id}/comments"}, method=RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
     @PreAuthorize("hasAnyAuthority('admin', 'user')")
@@ -98,7 +98,7 @@ public class CinemaController {
 		return cinemaService.createComment(cinemaComment, cinema, user);
 	}
 	
-	@ApiOperation(value="获取一个特定的影院评论")
+	@ApiOperation(value="获取影院评论")
 	@RequestMapping(value={"/{cinemaId}/comments/{commentId}"}, method=RequestMethod.GET)
 	@PreAuthorize("hasAnyAuthority('admin', 'user')")
 	public ResponseEntity<CinemaComment> getCinemaCommentById(@PathVariable("cinemaId") long cinemaId, @PathVariable("commentId") long commentId) {
@@ -112,7 +112,7 @@ public class CinemaController {
 		return new ResponseEntity<CinemaComment>(cinemaComment = null, HttpStatus.NOT_FOUND);
 	}
 	
-	@ApiOperation(value="删除一个特定的影院评论")
+	@ApiOperation(value="删除影院评论")
 	@RequestMapping(value={"/{cinemaId}/comments/{commentId}"}, method=RequestMethod.DELETE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @PreAuthorize("hasAnyAuthority('admin', 'user')")
@@ -126,13 +126,13 @@ public class CinemaController {
     	}
 	}
 	
-	@ApiOperation(value="获取一个影院所有影厅的信息")
+	@ApiOperation(value="获取某个影院所有影厅")
 	@RequestMapping(value="/{id}/halls", method = RequestMethod.GET)
 	public List<Hall> listHallsByCinemaId(@PathVariable("id") long id) {
 		return cinemaService.listHallsByCinemaId(id);
 	}
 	
-	@ApiOperation(value="创建一个影厅")
+	@ApiOperation(value="创建影厅")
 	@RequestMapping(value={"/{id}/halls"}, method=RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
     @PreAuthorize("hasAnyAuthority('admin')")
@@ -141,7 +141,7 @@ public class CinemaController {
 		return cinemaService.createHall(hall, cinema);
 	}
 	
-	@ApiOperation(value="获取一个影厅的信息")
+	@ApiOperation(value="获取某个影厅的信息")
 	@RequestMapping(value={"/{cinemaId}/halls/{hallId}"}, method=RequestMethod.GET)
 	@PreAuthorize("hasAnyAuthority('admin')")
 	public ResponseEntity<Hall> getHallById(@PathVariable("cinemaId") long cinemaId, @PathVariable("hallId") long hallId) {
@@ -152,7 +152,7 @@ public class CinemaController {
 		return new ResponseEntity<Hall>(hall = null, HttpStatus.NOT_FOUND);
 	}
 	
-	@ApiOperation(value="删除一个影厅")
+	@ApiOperation(value="删除影厅")
 	@RequestMapping(value={"/{cinemaId}/halls/{hallId}"}, method=RequestMethod.DELETE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @PreAuthorize("hasAnyAuthority('admin')")
@@ -163,7 +163,7 @@ public class CinemaController {
     	}
 	}
 	
-	@ApiOperation(value="获取一个影厅的所有座位")
+	@ApiOperation(value="获取某个影厅的所有座位")
 	@RequestMapping(value="/{cinemaId}/halls/{hallId}/seats", method = RequestMethod.GET)
 	public List<Seat> listSeatsByHallId(@PathVariable("cinemaId") long cinemaId, @PathVariable("hallId") long hallId) {
 		Hall hall = cinemaService.getHallById(hallId);
@@ -173,7 +173,7 @@ public class CinemaController {
 		return null;
 	}
 	
-	@ApiOperation(value="创建一个座位")
+	@ApiOperation(value="创建座位")
 	@RequestMapping(value={"/{cinemaId}/halls/{hallId}/seats"}, method=RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
     @PreAuthorize("hasAnyAuthority('admin')")
@@ -185,7 +185,7 @@ public class CinemaController {
 		return null;
 	}
 
-	@ApiOperation(value="获取一个座位的信息")
+	@ApiOperation(value="获取某个座位的信息")
 	@RequestMapping(value={"/{cinemaId}/halls/{hallId}/seats/{seatId}"}, method=RequestMethod.GET)
 	@PreAuthorize("hasAnyAuthority('admin')")
 	public ResponseEntity<Seat> getSeatById(@PathVariable("cinemaId") long cinemaId, @PathVariable("hallId") long hallId, @PathVariable("seatId") long seatId) {
@@ -197,7 +197,7 @@ public class CinemaController {
 		return new ResponseEntity<Seat>(seat = null, HttpStatus.NOT_FOUND);
 	}
 	
-	@ApiOperation(value="删除一个座位")
+	@ApiOperation(value="删除座位")
 	@RequestMapping(value={"/{cinemaId}/halls/{hallId}/seats/{seatId}"}, method=RequestMethod.DELETE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @PreAuthorize("hasAnyAuthority('admin')")

@@ -22,7 +22,7 @@ import com.c09.GoMovie.user.service.SessionService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-@Api(value="订单模块", description="Order的CURD操作")
+@Api(value="Order", description="Order的CURD")
 @RestController
 @RequestMapping("/orders")
 public class OrderController {
@@ -32,20 +32,20 @@ public class OrderController {
 	@Autowired
 	private SessionService sessionService;
 	
-	@ApiOperation(value="获取所有订单")
+	@ApiOperation(value="获取订单")
 	@RequestMapping(value = {""}, method = RequestMethod.GET)
     public Iterable<Order> listOrders() {
 		return orderService.listOrders();
 	}
 	
-	@ApiOperation(value="获取单个订单的信息")
+	@ApiOperation(value="获取某个个订单")
 	@RequestMapping(value="/{id}", method = RequestMethod.GET)
     public ResponseEntity<Order> getCinemaById(@PathVariable("id") long orderId) {
 		Order order = orderService.getOrderById(orderId);
 		return new ResponseEntity<Order>(order, order != null ? HttpStatus.OK : HttpStatus.NOT_FOUND);
 	}
 	
-	@ApiOperation(value="创建一个订单")
+	@ApiOperation(value="创建订单")
 	@RequestMapping(value = {""}, method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
     @PreAuthorize("hasAnyAuthority('admin', 'user')")
@@ -54,7 +54,7 @@ public class OrderController {
 		return orderService.createOrder(jsonString, user);
 	}
 	
-	@ApiOperation(value="删除一个订单")
+	@ApiOperation(value="删除订单")
 	@RequestMapping(value={"/{id}"}, method=RequestMethod.DELETE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @PreAuthorize("hasAuthority('user')")

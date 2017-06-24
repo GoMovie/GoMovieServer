@@ -120,8 +120,8 @@ public class DataInitHelper {
         
         //
         String[] cinemaName = {"大学城珠江国际影城", "横店电影城（广州南沙店）", "中影火山湖（番禺区店）"};
-        String[] hallName = {"2D影厅", "3D影厅", "IMAX影厅"};
-        String[] addressList = {"番禺区小谷围街贝岗村中二横路1号高高新天地商业广场B2B001铺", "南沙区进港大道奥园海景城4楼(蕉地铁站)", "广州市番禺区桥南街桥南路108号3楼"};
+        String[] hallType = {"2D影厅", "3D影厅", "IMAX影厅"};
+        String[] cinemaAddresses = {"番禺区小谷围街贝岗村中二横路1号高高新天地商业广场B2B001铺", "南沙区进港大道奥园海景城4楼(蕉地铁站)", "广州市番禺区桥南街桥南路108号3楼"};
         
         for (int k = 0 ; k < 3 ; k++) {
 	        Cinema cinema = new Cinema();
@@ -130,12 +130,12 @@ public class DataInitHelper {
 	        cinema.setLongitude(113.0);
 	        cinema.setLatitude(23.0);
 	        cinema.setCityId("020");
-	        cinema.setAddress(addressList[k]);
+	        cinema.setAddress(cinemaAddresses[k]);
 	        cinema.setPhone("020-66666666");
 	        cinema.setScore(3.0);
 	        for (int i = 0; i < 3; i++) {
 	        	Hall hall = new Hall();
-	        	hall.setName(hallName[i]);
+	        	hall.setName(hallType[i]);
 	        	
 	        	for (int j = 0; j < 10; j++) {
 	        		for (int c = 0 ; c < 10 ; c++) {
@@ -162,7 +162,7 @@ public class DataInitHelper {
 	        for (int i = 0 ; i < 3 ; i++) {
 		        CinemaComment cinemaComment = new CinemaComment();
 		        cinemaComment.setScore(i);
-		        cinemaComment.setContent("cinema-" + k + "-comment-" + i);
+		        cinemaComment.setContent("能嘻嘻嘻的电影院");
 
 		        cinemaComment.setUser(user);
 
@@ -179,9 +179,6 @@ public class DataInitHelper {
     		for (Cinema cinema: cinemas) {
 		        List<Hall> hallList = cinema.getHallls();
 		        for (Hall hall : hallList) {
-		        	if (Math.random() > 0.5) {
-		        		continue;
-		        	}
 		        	Screening screening = new Screening();
 		    		screening.setCinema(cinema);
 		    		screening.setHall(hall);
@@ -190,7 +187,7 @@ public class DataInitHelper {
 		    		
 		    		try {
 		    			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm");
-						Date startTimeDate = sdf.parse("2016-08-03 09:30");
+						Date startTimeDate = sdf.parse("2017-06-24 12:00");
 						screening.setStartTime(startTimeDate);
 					} catch (ParseException e) {
 						e.printStackTrace();
@@ -202,7 +199,7 @@ public class DataInitHelper {
 		    		List<Seat> seatList = hall.getSeats();
 		    		for (Seat seat : seatList) {
 		    			Ticket ticket = new Ticket();
-		        		ticket.setPrice(40);
+		        		ticket.setPrice(20);
 		        		ticket.setScreening(screening);
 		        		ticket.setSeat(seat);
 		        		ticketRepository.save(ticket);

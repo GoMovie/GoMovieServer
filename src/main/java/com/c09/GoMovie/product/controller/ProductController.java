@@ -35,7 +35,7 @@ import com.c09.GoMovie.user.service.SessionService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-@Api(value="产品模块", description="Screening、Ticket的CURD操作")
+@Api(value="Product", description="Screening、Ticket的CURD")
 @RestController
 @RequestMapping("/cinemas")
 public class ProductController {
@@ -43,19 +43,19 @@ public class ProductController {
 	@Autowired
 	private ProductService productService;
 	
-	@ApiOperation(value="根据影院ID获取所有场次")
+	@ApiOperation(value="根据影院ID获取全部场次")
 	@RequestMapping(value={"/{cinemaId}/screenings"}, method=RequestMethod.GET)
 	public List<Screening> listScreeningsByCinameId(@PathVariable("cinemaId") long cinemaId) {
 		return productService.listScreeningsByCinameId(cinemaId);
 	}
 	
-	@ApiOperation(value="根据场次ID获取一个场次")
+	@ApiOperation(value="根据场次ID获取某个场次")
 	@RequestMapping(value={"/{cinemaId}/screenings/{screeningId}"}, method=RequestMethod.GET)
 	public Screening getScreeningById(@PathVariable("cinemaId") long cinemaId, @PathVariable("screeningId") long screeningId) {
 		return productService.getScreeningById(screeningId);
 	}
-	
-	@ApiOperation(value="创建一个场次，场次的hallId、movieId封装在json内，key值为hallId、movieId, startTime类型为String，格式：\"yyyy-MM-dd hh:mm\"")
+	//场次的hallId、movieId封装在json内，key值为hallId、movieId, startTime类型为String，格式：\"yyyy-MM-dd hh:mm\"
+	@ApiOperation(value="创建一个场次")
 	@RequestMapping(value = {"/{cinemaId}/screenings"}, method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
     @PreAuthorize("hasAuthority('admin')")
@@ -79,7 +79,7 @@ public class ProductController {
 		return productService.createScreening(screening, hallId, movieId);
 	}
 	
-	@ApiOperation(value="根据场次ID删除一个场次")
+	@ApiOperation(value="根据场次ID删除场次")
 	@RequestMapping(value={"/{cinemaId}/screenings/{screeningId}"}, method=RequestMethod.DELETE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @PreAuthorize("hasAuthority('admin')")
@@ -103,7 +103,7 @@ public class ProductController {
 		return new ResponseEntity<Ticket>(ticket, ticket != null ? HttpStatus.OK : HttpStatus.NOT_FOUND);
 	}
 	
-	@ApiOperation(value="创建一张电影票，电影票的seatId封装在json内，key值为seatId")
+	@ApiOperation(value="创建一张电影票")
 	@RequestMapping(value = {"/{cinemaId}/screenings/{screeningId}/tickets"}, method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
     @PreAuthorize("hasAuthority('admin')")
@@ -118,7 +118,7 @@ public class ProductController {
 		return productService.createTicket(ticket, screeningId, seatId);
 	}
 	
-	@ApiOperation(value="根据电影票ID删除一张电影票")
+	@ApiOperation(value="根据电影票ID删除电影票")
 	@RequestMapping(value={"/{cinemaId}/screenings/{screeningId}/tickets/{ticketId}"}, method=RequestMethod.DELETE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @PreAuthorize("hasAuthority('admin')")
